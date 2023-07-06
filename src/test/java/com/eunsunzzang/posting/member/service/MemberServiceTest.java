@@ -1,5 +1,7 @@
-package com.eunsunzzang.posting.member;
+package com.eunsunzzang.posting.member.service;
 
+import com.eunsunzzang.posting.member.Member;
+import com.eunsunzzang.posting.member.MemberRole;
 import com.eunsunzzang.posting.member.dto.MemberSignUpDto;
 import com.eunsunzzang.posting.member.repository.MemberRepository;
 import com.eunsunzzang.posting.member.service.MemberService;
