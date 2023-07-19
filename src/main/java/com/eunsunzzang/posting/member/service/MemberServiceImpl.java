@@ -1,5 +1,7 @@
 package com.eunsunzzang.posting.member.service;
 
+import com.eunsunzzang.posting.error.errorcode.AuthErrorCode;
+import com.eunsunzzang.posting.error.exception.AuthException;
 import com.eunsunzzang.posting.member.Member;
 import com.eunsunzzang.posting.member.dto.MemberSignUpDto;
 import com.eunsunzzang.posting.member.repository.MemberRepository;
@@ -21,7 +23,7 @@ public class MemberServiceImpl implements MemberService{
         member.addUserAuthority();
 
         if(memberRepository.findByEmail(memberSignUpDto.email()).isPresent()){
-            throw new Exception("이미 존재하는 이메일입니다.");
+            throw new AuthException(AuthErrorCode.EMAIL_DUPLICATE);
         }
 
         memberRepository.save(member);
