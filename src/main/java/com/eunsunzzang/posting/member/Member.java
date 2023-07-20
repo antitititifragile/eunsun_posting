@@ -1,10 +1,7 @@
 package com.eunsunzzang.posting.member;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Getter
+@Setter
 @Builder
 public class Member {
 
@@ -38,7 +36,7 @@ public class Member {
    //@Column(nullable = false, length=30)
     LocalDateTime emailAuthDt;
 
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     EmailAuthStatus emailAuthStatus;
 
     @Enumerated(EnumType.STRING)
@@ -46,9 +44,4 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     MemberStatus status;
-
-    // 회원 가입 시 권한 부여
-    public void addUserAuthority() {
-        this.role = MemberRole.ROLE_USER;
-    }
 }
