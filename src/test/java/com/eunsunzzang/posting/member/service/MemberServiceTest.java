@@ -1,5 +1,6 @@
 package com.eunsunzzang.posting.member.service;
 
+import com.eunsunzzang.posting.error.errorcode.AuthErrorCode;
 import com.eunsunzzang.posting.member.Member;
 import com.eunsunzzang.posting.member.MemberRole;
 import com.eunsunzzang.posting.member.dto.MemberSignUpDto;
@@ -74,7 +75,7 @@ class MemberServiceTest {
 
         //when, then
         assertThat(assertThrows(Exception.class,
-                () -> memberService.signUp(memberSignUpDto)).getMessage()).isEqualTo("이미 존재하는 이메일입니다.");
+                () -> memberService.signUp(memberSignUpDto)).getMessage()).isEqualTo(AuthErrorCode.EMAIL_DUPLICATE.getErrorMessage());
     }
 
 }
