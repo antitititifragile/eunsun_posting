@@ -15,6 +15,10 @@ public record MemberSignUpDto(
         String password) {
 
     public Member toEntity() {
-        return Member.builder().name(name).email(email).password(password).build();
+        return Member.builder()
+                .name(name)
+                .email(email)
+                .password(password)
+                .build();
     }
 }
