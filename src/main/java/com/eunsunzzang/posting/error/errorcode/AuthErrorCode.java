@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum AuthErrorCode implements ErrorCode {
-    EMAIL_DUPLICATE(HttpStatus.BAD_REQUEST, "이미 존재하는 이메일 입니다.");
+    EMAIL_DUPLICATE(HttpStatus.BAD_REQUEST, "이미 존재하는 이메일 입니다."),
+    EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 이메일 입니다."),
+    AUTH_CODE_ERROR(HttpStatus.BAD_REQUEST,"잘못된 인증 코드 입니다.");
 
     private final HttpStatus httpStatus;
     private final String errorMessage;

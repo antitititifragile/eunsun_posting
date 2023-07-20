@@ -5,6 +5,7 @@ import com.eunsunzzang.posting.error.exception.AuthException;
 import com.eunsunzzang.posting.member.EmailAuthStatus;
 import com.eunsunzzang.posting.member.Member;
 import com.eunsunzzang.posting.member.MemberRole;
+import com.eunsunzzang.posting.member.dto.EmailAuthDto;
 import com.eunsunzzang.posting.member.dto.MemberSignUpDto;
 import com.eunsunzzang.posting.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 
 @Service
@@ -33,6 +36,7 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberSignUpDto.toEntity();
         member.setRole(MemberRole.ROLE_USER);
         member.setEmailAuthStatus(EmailAuthStatus.VERIFICATION_ING);
+        member.setEmailAuthKey(UUID.randomUUID().toString());
 
         if(memberRepository.findByEmail(memberSignUpDto.email()).isPresent()){
             throw new AuthException(AuthErrorCode.EMAIL_DUPLICATE);
@@ -45,8 +49,9 @@ public class MemberServiceImpl implements MemberService{
      * 이메일 인증코드 전송
      * */
     public void emailSend(Member member) throws Exception {
+
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setText("\n인증번호는 " + tmpNum + "입니다");
+        message.setText("\n인증번호는 " + member.getEmailAuthKey() + "입니다");
         message.setSubject("이메일 인증");
         message.setTo(member.getEmail());
 
@@ -58,7 +63,12 @@ public class MemberServiceImpl implements MemberService{
      * */
     @Override
     @Async
-    public void emailAuth(Member member) throws Exception {
-
+    public void emailAuth(EmailAuthDto emailAuthDto) throws Exception {
+        Member member = memberRepository.findByEmail(emailAuthDto.email()).orElseThrow(
+                () -> new AuthException(AuthErrorCode.EMAIL_NOT_FOUND));
+        if (member.getEmailAuthKey().equals(emailAuthDto.key())) {
+            member.setEmailAuthStatus(EmailAuthStatus.VERIFICATION_COMPLETE);
+            memberRepository.save(member);
+        } else throw new AuthException(AuthErrorCode.AUTH_CODE_ERROR);
     }
 }

@@ -1,6 +1,7 @@
 package com.eunsunzzang.posting.member.service;
 
 import com.eunsunzzang.posting.member.Member;
+import com.eunsunzzang.posting.member.dto.EmailAuthDto;
 import com.eunsunzzang.posting.member.dto.MemberSignUpDto;
 
 public interface MemberService {
@@ -13,5 +14,5 @@ public interface MemberService {
     /**
      * 이메일 인증
      * */
-    void emailAuth(Member member) throws Exception;
+    void emailAuth(EmailAuthDto emailAuthDto) throws Exception;
 }
