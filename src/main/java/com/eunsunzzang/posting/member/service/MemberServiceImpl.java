@@ -24,7 +24,6 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
-    private int tmpNum = 123;
 
     private final JavaMailSender mailSender;
 
@@ -34,13 +33,15 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void signUp(MemberSignUpDto memberSignUpDto) throws Exception {
         Member member = memberSignUpDto.toEntity();
-        member.setRole(MemberRole.ROLE_USER);
-        member.setEmailAuthStatus(EmailAuthStatus.VERIFICATION_ING);
-        member.setEmailAuthKey(UUID.randomUUID().toString());
 
         if(memberRepository.findByEmail(memberSignUpDto.email()).isPresent()){
             throw new AuthException(AuthErrorCode.EMAIL_DUPLICATE);
         }
+
+        member.setRole(MemberRole.ROLE_USER);
+        member.setEmailAuthStatus(EmailAuthStatus.VERIFICATION_ING);
+        member.setEmailAuthKey(UUID.randomUUID().toString());
+
         emailSend(member);
         memberRepository.save(member);
     }
