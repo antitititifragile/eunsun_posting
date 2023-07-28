@@ -1,4 +1,4 @@
-package com.eunsunzzang.posting.member;
+package com.eunsunzzang.posting.member.model;
 
 public enum MemberStatus {
     CONTINUE,

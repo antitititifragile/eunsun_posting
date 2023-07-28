@@ -29,6 +29,11 @@ spring:
           timeout: 5000
           writetimeout: 5000
 
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+
 springdoc:
   packages-to-scan: com.eunsunzzang.posting
   default-consumes-media-type: application/json;charset=UTF-8
@@ -38,3 +43,6 @@ springdoc:
     disable-swagger-default-url: true
     display-request-duration: true
     operations-sorter: alpha
+jwt:
+  secret:
+    key: x!A%D*G-KaPdSgVkYp3s5v8y/B?E(H+M
