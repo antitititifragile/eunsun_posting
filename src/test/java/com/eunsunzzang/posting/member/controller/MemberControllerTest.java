@@ -2,6 +2,7 @@ package com.eunsunzzang.posting.member.controller;
 
 import com.eunsunzzang.posting.error.errorcode.AuthErrorCode;
 import com.eunsunzzang.posting.error.exception.AuthException;
+import com.eunsunzzang.posting.member.model.dto.LoginDto;
 import com.eunsunzzang.posting.member.model.entity.Member;
 import com.eunsunzzang.posting.member.model.dto.EmailAuthDto;
 import com.eunsunzzang.posting.member.model.dto.MemberSignUpDto;
@@ -10,15 +11,23 @@ import com.eunsunzzang.posting.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.aspectj.lang.annotation.Before;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,8 +49,12 @@ class MemberControllerTest {
     @Autowired
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     private static String SIGN_UP_URL = "/v1/members/signup";
     private static String EMAIL_AUTH_URL = "/v1/members/email-auth";
+    private static String LOGIN_URL = "/v1/members/login";
 
     private String name = "username";
     private String email = "user@email.com";
@@ -62,6 +75,13 @@ class MemberControllerTest {
         return mockMvc.perform(post(EMAIL_AUTH_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(emailAuthData));
+    }
+
+    private ResultActions login(String loginData) throws Exception {
+        return mockMvc.perform(post(LOGIN_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginData));
+
     }
 
     @Test
@@ -93,6 +113,21 @@ class MemberControllerTest {
 
         //when
         ResultActions resultActions = emailAuth(emailAuthData);
+
+        //then
+        resultActions
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("로그인 성공")
+    public void login_success() throws Exception {
+        //given
+        emailAuth_success();
+        String loginData = objectMapper.writeValueAsString(new LoginDto(email, password));
+
+        //when
+        ResultActions resultActions = login(loginData);
 
         //then
         resultActions
