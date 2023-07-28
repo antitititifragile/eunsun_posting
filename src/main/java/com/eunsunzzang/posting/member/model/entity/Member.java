@@ -1,5 +1,8 @@
-package com.eunsunzzang.posting.member;
+package com.eunsunzzang.posting.member.model.entity;
 
+import com.eunsunzzang.posting.member.model.EmailAuthStatus;
+import com.eunsunzzang.posting.member.model.MemberRole;
+import com.eunsunzzang.posting.member.model.MemberStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +18,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="member_id")
+    @Column(nullable = false)
     private Long member_id;
 
     @Column(nullable = false, length=30)
@@ -24,7 +27,7 @@ public class Member {
     @Column(nullable = false, length=30, unique = true)
     private String email;
 
-    @Column(nullable = false, length=30)
+    @Column(nullable = false)
     private String password;
 
     //@Column(nullable = false, length=30)
@@ -44,4 +47,7 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     MemberStatus status;
+
+    @Column
+    private String refreshToken;
 }

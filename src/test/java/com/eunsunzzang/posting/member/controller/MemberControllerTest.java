@@ -2,9 +2,9 @@ package com.eunsunzzang.posting.member.controller;
 
 import com.eunsunzzang.posting.error.errorcode.AuthErrorCode;
 import com.eunsunzzang.posting.error.exception.AuthException;
-import com.eunsunzzang.posting.member.Member;
-import com.eunsunzzang.posting.member.dto.EmailAuthDto;
-import com.eunsunzzang.posting.member.dto.MemberSignUpDto;
+import com.eunsunzzang.posting.member.model.entity.Member;
+import com.eunsunzzang.posting.member.model.dto.EmailAuthDto;
+import com.eunsunzzang.posting.member.model.dto.MemberSignUpDto;
 import com.eunsunzzang.posting.member.repository.MemberRepository;
 import com.eunsunzzang.posting.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;

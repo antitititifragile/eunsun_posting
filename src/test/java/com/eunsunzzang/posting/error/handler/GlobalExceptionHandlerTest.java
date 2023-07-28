@@ -2,12 +2,9 @@ package com.eunsunzzang.posting.error.handler;
 
 import com.eunsunzzang.posting.error.errorcode.AuthErrorCode;
 import com.eunsunzzang.posting.error.exception.AuthException;
-import com.eunsunzzang.posting.member.Member;
-import com.eunsunzzang.posting.member.dto.MemberSignUpDto;
-import com.eunsunzzang.posting.member.repository.MemberRepository;
+import com.eunsunzzang.posting.member.model.dto.MemberSignUpDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
