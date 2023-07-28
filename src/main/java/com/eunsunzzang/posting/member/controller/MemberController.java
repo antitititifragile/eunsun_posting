@@ -1,16 +1,14 @@
 package com.eunsunzzang.posting.member.controller;
 
-import com.eunsunzzang.posting.member.Member;
-import com.eunsunzzang.posting.member.dto.EmailAuthDto;
-import com.eunsunzzang.posting.member.dto.MemberSignUpDto;
+import com.eunsunzzang.posting.member.model.dto.EmailAuthDto;
+import com.eunsunzzang.posting.member.model.dto.LoginDto;
+import com.eunsunzzang.posting.member.model.dto.MemberSignUpDto;
 import com.eunsunzzang.posting.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Member API", description = "회원가입 및 로그인 관리")
@@ -39,5 +37,15 @@ public class MemberController {
     @ResponseStatus(HttpStatus.OK)
     public void emailAuth(@RequestBody EmailAuthDto emailAuthDto) throws Exception{
         memberService.emailAuth(emailAuthDto);
+    }
+
+    /**
+     * 로그인
+     * */
+    @Operation(summary = "로그인", description = "email, password를 통해 로그인을 진행합니다.")
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public void login(@RequestBody LoginDto loginDto) throws Exception{
+        memberService.login(loginDto);
     }
 }
